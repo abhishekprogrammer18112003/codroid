@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "612416119384",
+    "project_id": "codroid-e412c",
+    "storage_bucket": "codroid-e412c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:612416119384:android:4b506e3b03792e51bd202d",
+        "android_client_info": {
+          "package_name": "com.alton.codroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "612416119384-m51ad5h1m33kphv382iflci8g065k0j5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0UcN6eNt2Hb01xplNWmqVP5U6QiGsXDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "612416119384-m51ad5h1m33kphv382iflci8g065k0j5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
