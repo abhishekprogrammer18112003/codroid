@@ -47,6 +47,8 @@ dependencies:
   cloud_firestore: ^4.3.1
   lottie: ^2.2.0
   get: ^4.6.5
+  google_nav_bar: ^5.0.6
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
