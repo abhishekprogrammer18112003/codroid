@@ -49,6 +49,7 @@ dependencies:
   get: ^4.6.5
   google_nav_bar: ^5.0.6
   http: ^0.13.5
+  webview_flutter: ^2.0.13
 
 dev_dependencies:
   flutter_test:
