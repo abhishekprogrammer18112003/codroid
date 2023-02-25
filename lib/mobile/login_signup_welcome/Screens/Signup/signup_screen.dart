@@ -108,6 +108,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       final imagepermanent = File(image.path);
       setState(() {
+        saveimage(image.path.toString());
         this._image = imagepermanent;
       });
     } on PlatformException catch (e) {
