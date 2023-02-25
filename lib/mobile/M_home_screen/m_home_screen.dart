@@ -93,7 +93,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
           Container(
             height: MediaQuery.of(context).size.height * 0.3,
             width: double.infinity,
-            color: Colors.yellow,
+            color: Colors.blue,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
@@ -200,11 +200,11 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           // sets the background color of the `BottomNavigationBar`
-          canvasColor: Colors.yellow,
+          canvasColor: Colors.blue,
           // sets the active color of the `BottomNavigationBar` if `Brightness` is light
         ),
         child: BottomNavigationBar(
-          selectedItemColor: Color.fromARGB(255, 255, 0, 251),
+          selectedItemColor: Color.fromARGB(255, 248, 246, 248),
           unselectedItemColor: Color.fromARGB(255, 0, 0, 0),
           currentIndex: _currentIndex,
           onTap: (int index) {
