@@ -193,7 +193,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
         ],
       )),
       //body
-    
+
       body: _pages[_currentIndex],
 
       //bottom navigation bar

@@ -1,39 +1,10 @@
-import 'dart:convert';
-
+import 'package:codroid/constants/images.dart';
+import 'package:codroid/mobile/m_main_screen/codeforces.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
-class Contest {
-  final String name;
-  final String url;
-  final String startTime;
-
-  Contest({required this.name, required this.url, required this.startTime});
-
-  factory Contest.fromJson(Map<String, dynamic> json) {
-    return Contest(
-      name: json['event'],
-      url: json['href'],
-      startTime: json['start'],
-    );
-  }
-}
-
-Future<List<Contest>> fetchContests() async {
-  final response = await http.get(Uri.parse('https://clist.by/api/v1/contest/?limit=10&order_by=-start&start__gt=now'));
-
-  if (response.statusCode == 200) {
-    final parsed = jsonDecode(response.body);
-    final results = parsed['objects'] as List<dynamic>;
-    return results.map<Contest>((json) => Contest.fromJson(json)).toList();
-  } else {
-    throw Exception('Failed to fetch contests');
-  }
-}
-
+import 'image_slide.dart';
 
 class MobileMainScreen extends StatefulWidget {
   const MobileMainScreen({Key? key}) : super(key: key);
@@ -43,70 +14,117 @@ class MobileMainScreen extends StatefulWidget {
 }
 
 class _MobileMainScreenState extends State<MobileMainScreen> {
-  late Future<List<dynamic>> _contestsFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _contestsFuture = fetchFutureContests();
+  void opencodeforcespage() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const CodeforcesPage()));
   }
 
+  void opencodechefpage() {}
+  void openleetcodepage() {}
+  void opencodingninjaspage() {}
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(color: Colors.amber),
-            height: 200,
-            width: double.infinity,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                // color: Colors.black,
+                height: 200,
+                child: ImageSlider(
+                  imageUrls: [
+                    // 'https://1.bp.blogspot.com/-kK7Fxm7U9o0/YN0bSIwSLvI/AAAAAAAACFk/aF4EI7XU_ashruTzTIpifBfNzb4thUivACLcBGAsYHQ/s1280/222.jpg',
+                    'https://cdn.pixabay.com/photo/2014/02/27/16/10/flowers-276014__340.jpg',
+                    'https://cdn.pixabay.com/photo/2020/04/11/08/26/lake-5029360__480.jpg',
+                    'https://thumbs.dreamstime.com/b/beautiful-rain-forest-ang-ka-nature-trail-doi-inthanon-national-park-thailand-36703721.jpg',
+                    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg'
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+
+              //row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  //codeforces
+                  GestureDetector(
+                    onTap: opencodeforcespage,
+                    child: Card(
+                      elevation: 5, // Shadow depth
+                      child: Container(
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          padding: EdgeInsets.all(16), // Inner padding
+                          child: Stack(
+                            children: [Center(child: Image.asset(codeforces))],
+                          )),
+                    ),
+                  ),
+
+                  //codechef
+                  GestureDetector(
+                    child: Card(
+                      elevation: 5, // Shadow depth
+                      child: Container(
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          padding: EdgeInsets.all(16), // Inner padding
+                          child: Stack(
+                            children: [Center(child: Image.asset(codechef))],
+                          )),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+
+              //row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  //lettcode
+                  GestureDetector(
+                    child: Card(
+                      elevation: 5, // Shadow depth
+                      child: Container(
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          padding: EdgeInsets.all(16), // Inner padding
+                          child: Stack(
+                            children: [Center(child: Image.asset(leetcode))],
+                          )),
+                    ),
+                  ),
+
+                  //codingninjas
+                  GestureDetector(
+                    child: Card(
+                      elevation: 5, // Shadow depth
+                      child: Container(
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          padding: EdgeInsets.all(16), // Inner padding
+                          child: Stack(
+                            children: [
+                              Center(child: Image.asset(codingninjas))
+                            ],
+                          )),
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
-          Expanded(
-            child: FutureBuilder<List<dynamic>>(
-              future: _contestsFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                }
-
-                if (snapshot.hasError) {
-                  return Center(child: Text('Error fetching contests'));
-                }
-
-                final contests = snapshot.data!;
-
-                return ListView.builder(
-                  itemCount: contests.length,
-                  itemBuilder: (context, index) {
-                    final contest = contests[index];
-                    return ListTile(
-                      title: Text(contest['name']),
-                      subtitle: Text(
-                          'Start Time: ${DateTime.fromMillisecondsSinceEpoch(contest['startTimeSeconds'] * 1000)}'),
-                      trailing: Icon(Icons.arrow_forward),
-                      onTap: () => null,
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-        ],
+        ),
       ),
     );
-  }
-
-  Future<List<dynamic>> fetchFutureContests() async {
-    final url = Uri.parse('https://codeforces.com/api/contest.list');
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body) as Map<String, dynamic>;
-      final contests = data['result'] as List<dynamic>;
-
-      return contests.toList();
-    } else {
-      throw Exception('Failed to fetch contests');
-    }
   }
 }
