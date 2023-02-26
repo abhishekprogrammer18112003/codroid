@@ -71,7 +71,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
   final List<Widget> _pages = [
     MobileMainScreen(),
     MobileCoursesScreen(),
-    MobilePracticeScreen(),
+    LeetCodeScreen(),
     MobileForumsScreen(),
     MobileIdeScreen()
   ];
@@ -193,7 +193,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
         ],
       )),
       //body
-
+    
       body: _pages[_currentIndex],
 
       //bottom navigation bar

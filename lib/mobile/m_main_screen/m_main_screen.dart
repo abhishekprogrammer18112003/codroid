@@ -3,6 +3,38 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+class Contest {
+  final String name;
+  final String url;
+  final String startTime;
+
+  Contest({required this.name, required this.url, required this.startTime});
+
+  factory Contest.fromJson(Map<String, dynamic> json) {
+    return Contest(
+      name: json['event'],
+      url: json['href'],
+      startTime: json['start'],
+    );
+  }
+}
+
+Future<List<Contest>> fetchContests() async {
+  final response = await http.get(Uri.parse('https://clist.by/api/v1/contest/?limit=10&order_by=-start&start__gt=now'));
+
+  if (response.statusCode == 200) {
+    final parsed = jsonDecode(response.body);
+    final results = parsed['objects'] as List<dynamic>;
+    return results.map<Contest>((json) => Contest.fromJson(json)).toList();
+  } else {
+    throw Exception('Failed to fetch contests');
+  }
+}
+
+
 class MobileMainScreen extends StatefulWidget {
   const MobileMainScreen({Key? key}) : super(key: key);
 

@@ -1,1 +1,0 @@
-String link="https://codeforces.com/api";
