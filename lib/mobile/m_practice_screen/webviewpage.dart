@@ -10,7 +10,7 @@ class webViewPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Center(child: Text('CODROID      ', style: TextStyle(letterSpacing: 4, fontSize: 22),)),
+          title: const Center(child: Text('CODROID      ', style: TextStyle(letterSpacing: 4, fontSize: 22),)),
           // elevation: 0,
         ),
         body: Stack(

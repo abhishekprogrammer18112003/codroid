@@ -13,8 +13,8 @@ class WelcomeImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          "WELCOME TO CODROID \n        Learn to code \n         enjoy with us",
+        const Text(
+          "WELCOME TO CODROID \n        Learn to code \n         Enjoy with us",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         SizedBox(height: defaultPadding * 2),

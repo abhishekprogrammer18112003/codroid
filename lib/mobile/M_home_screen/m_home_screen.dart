@@ -75,14 +75,18 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
     MobileForumsScreen(),
     MobileIdeScreen()
   ];
+  
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text("Codroid"),
         automaticallyImplyLeading: false,
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
+        leading: IconButton(onPressed: (){
+        _scaffoldKey.currentState?.openDrawer();}, icon: const Icon(Icons.menu)),
       ),
 
       //drawer
