@@ -13,6 +13,8 @@ class _LeetCodeScreenState extends State<LeetCodeScreen> {
   final LeetCodeApiClient _apiClient = LeetCodeApiClient();
 
   List<dynamic> _problems = [];
+  List<Color> col = [Color.fromARGB(221, 169, 255, 172), Color.fromARGB(255, 255, 218, 145),  Color.fromARGB(255, 255, 184, 184)];
+  List<String> diff = ['Easy', 'Medium', 'Hard'];
 
   @override
   void initState() {
@@ -22,7 +24,7 @@ class _LeetCodeScreenState extends State<LeetCodeScreen> {
 
   Future<void> _fetchTopProblems() async {
     try {
-      List<dynamic> problems = await _apiClient.fetchTopProblems(limit: 10);
+      List<dynamic> problems = await _apiClient.fetchTopProblems(limit: 12);
       setState(() {
         _problems = problems;
       });
@@ -45,20 +47,19 @@ class _LeetCodeScreenState extends State<LeetCodeScreen> {
                 final problem = _problems[index];
                 final problemId = problem['stat']['question_id'];
                 final problemTitle = problem['stat']['question__title'];
-                final problemTitleSlug =
-                    problem['stat']['question__title_slug'];
-
-                final problemUrl =
-                    'https://leetcode.com/problems/$problemTitleSlug/';
+                final problemTitleSlug = problem['stat']['question__title_slug'];
+                final rating = problem['difficulty']['level'];
+                final problemUrl = 'https://leetcode.com/problems/$problemTitleSlug/';
 
                 return Padding(
                   padding: const EdgeInsets.all(1.0),
                   child: ListTile(
                     minVerticalPadding: 2,
-                    tileColor: Colors.blue.shade100,
+                    tileColor: col[rating-1],
                     splashColor: Colors.blueAccent,
-                    title: Text('${index + 1}. $problemTitle'),
-                    // subtitle: Text(problemUrl),
+                    title: Text('$problemTitle'),
+                    trailing: Text(diff[rating-1]),
+                    leading: Text('${index+1}.'),
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
