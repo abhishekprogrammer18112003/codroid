@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:codroid/constants/colors.dart';
 import 'package:codroid/mobile/login_signup_welcome/Screens/Signup/signup_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -25,6 +26,8 @@ class MobileHomeScreen extends StatefulWidget {
 class _MobileHomeScreenState extends State<MobileHomeScreen> {
   File? imgfile;
   String? _imagepath;
+  var user = FirebaseAuth.instance.currentUser;
+  String name = 'User';
 
   @override
   Future getimage() async {
@@ -52,8 +55,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
+  void initState() async {
     super.initState();
     loadprofileimage();
   }
@@ -83,7 +85,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("Codroid"),
+        title: const Text("CODROID", style: TextStyle(letterSpacing: 2.0),),
         automaticallyImplyLeading: false,
         leading: IconButton(onPressed: (){
         _scaffoldKey.currentState?.openDrawer();}, icon: const Icon(Icons.menu)),
@@ -126,15 +128,15 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.03,
                   ),
-                  const Text(
-                    "Hello , Abhishek",
+                  Text(
+                    "Hello, $name",
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Color.fromARGB(255, 0, 0, 0)),
                   ),
-                  const Text(
-                    "abhishek@gmail.com",
+                  Text(
+                    "${user?.email}",
                     style: TextStyle(
                         fontSize: 13,
                         // fontWeight: FontWeight.bold,
@@ -182,7 +184,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
           ),
           ListTile(
             leading: const Icon(Icons.person),
-            title: const Text('Accounts'),
+            title: const Text('Account'),
             onTap: () {
               Navigator.pop(context);
             },
