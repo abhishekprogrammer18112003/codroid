@@ -55,9 +55,10 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
   }
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
     loadprofileimage();
+    // name = user!.displayName == '' ? 'User' : user!.displayName!;
   }
 
   void loadprofileimage() async {
@@ -82,165 +83,195 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: const Text("CODROID", style: TextStyle(letterSpacing: 2.0),),
-        automaticallyImplyLeading: false,
-        leading: IconButton(onPressed: (){
-        _scaffoldKey.currentState?.openDrawer();}, icon: const Icon(Icons.menu)),
-      ),
 
-      //drawer
-      drawer: Drawer(
-          child: ListView(
-        padding: const EdgeInsets.all(0),
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            width: double.infinity,
-            color: Colors.blue,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                  ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: GestureDetector(
-                      onTap: () {
-                        getimage();
-                        saveimage(imgfile!.path);
-                      },
-                      child: _imagepath != null
-                          ? CircleAvatar(
-                              radius: 50,
-                              backgroundImage: FileImage(File(_imagepath!)),
-                            )
-                          : const CircleAvatar(
-                              radius: 40,
-                              child: Icon(Icons.add),
-                            ),
+    Future<bool> showExitPopup() async {
+      return await showDialog( //show confirm dialogue 
+        //the return value will be from "Yes" or "No" options
+        context: context,
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+          title: Text('Exit App'),
+          content: Text('Do you want to exit the App?'),
+          actions:[
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(false),
+               //return false when click on "NO"
+              child:Text('No'),
+            ),
+
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).popUntil(ModalRoute.withName('/')), 
+              //return true when click on "Yes"
+              child:Text('Yes'),
+            ),
+
+          ],
+        ),
+      )??false; //if showDialouge had returned null, then return false
+    }
+
+    return WillPopScope(
+      onWillPop: showExitPopup,
+      child: Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(
+          title: const Text("CODROID", style: TextStyle(letterSpacing: 2.0),),
+          automaticallyImplyLeading: false,
+          leading: IconButton(onPressed: (){
+          _scaffoldKey.currentState?.openDrawer();}, icon: const Icon(Icons.menu)),
+        ),
+    
+        //drawer
+        drawer: Drawer(
+            child: ListView(
+          padding: const EdgeInsets.all(0),
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.3,
+              width: double.infinity,
+              color: Colors.blue,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
                     ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.03,
-                  ),
-                  Text(
-                    "Hello, $name",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 0, 0, 0)),
-                  ),
-                  Text(
-                    "${user?.email}",
-                    style: TextStyle(
-                        fontSize: 13,
-                        // fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 0, 0, 0)),
-                  ),
-                ],
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: GestureDetector(
+                        onTap: () {
+                          getimage();
+                          saveimage(imgfile!.path);
+                        },
+                        child: _imagepath != null
+                            ? CircleAvatar(
+                                radius: 50,
+                                backgroundImage: FileImage(File(_imagepath!)),
+                              )
+                            : const CircleAvatar(
+                                radius: 40,
+                                child: Icon(Icons.add),
+                              ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.03,
+                    ),
+                    Text(
+                      "Hello, $name",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 0, 0, 0)),
+                    ),
+                    Text(
+                      "${user?.email}",
+                      style: TextStyle(
+                          fontSize: 13,
+                          // fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 0, 0, 0)),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          //DrawerHeader
-          ListTile(
-            leading: const Icon(Icons.book),
-            title: const Text('Courses'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.sync_problem),
-            title: const Text('Practice Problems'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.chat),
-            title: const Text('Discussion'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.video_label),
-            title: const Text('Video Courses'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.pages),
-            title: const Text('SDE Sheets'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.person),
-            title: const Text('Account'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      )),
-      //body
-
-      body: _pages[_currentIndex],
-
-      //bottom navigation bar
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          // sets the background color of the `BottomNavigationBar`
-          canvasColor: Colors.blue,
-          // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-        ),
-        child: BottomNavigationBar(
-          selectedItemColor: Color.fromARGB(255, 248, 246, 248),
-          unselectedItemColor: Color.fromARGB(255, 0, 0, 0),
-          currentIndex: _currentIndex,
-          onTap: (int index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+            //DrawerHeader
+            ListTile(
+              leading: const Icon(Icons.book),
+              title: const Text('Courses'),
+              onTap: () {
+                Navigator.pop(context);
+              },
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.book),
-              label: 'Courses',
+            ListTile(
+              leading: const Icon(Icons.sync_problem),
+              title: const Text('Practice Problems'),
+              onTap: () {
+                Navigator.pop(context);
+              },
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.sync_problem),
-              label: 'Problems',
+            ListTile(
+              leading: const Icon(Icons.chat),
+              title: const Text('Discussion'),
+              onTap: () {
+                Navigator.pop(context);
+              },
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.forum),
-              label: 'Forums',
+            ListTile(
+              leading: const Icon(Icons.video_label),
+              title: const Text('Video Courses'),
+              onTap: () {
+                Navigator.pop(context);
+              },
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
+            ListTile(
+              leading: const Icon(Icons.pages),
+              title: const Text('SDE Sheets'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text('Account'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () {
+                Navigator.pop(context);
+              },
             ),
           ],
-          elevation: 30,
+        )),
+        //body
+    
+        body: _pages[_currentIndex],
+    
+        //bottom navigation bar
+        bottomNavigationBar: Theme(
+          data: Theme.of(context).copyWith(
+            // sets the background color of the `BottomNavigationBar`
+            canvasColor: Colors.blue,
+            // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+          ),
+          child: BottomNavigationBar(
+            selectedItemColor: Color.fromARGB(255, 248, 246, 248),
+            unselectedItemColor: Color.fromARGB(255, 0, 0, 0),
+            currentIndex: _currentIndex,
+            onTap: (int index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.book),
+                label: 'Courses',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.sync_problem),
+                label: 'Problems',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.forum),
+                label: 'Forums',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
+            ],
+            elevation: 30,
+          ),
         ),
       ),
     );
