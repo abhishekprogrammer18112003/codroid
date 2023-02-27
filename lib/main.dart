@@ -22,10 +22,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Codroid',
       theme: themes.lighttheme,
       darkTheme: themes.darktheme,
       themeMode: ThemeMode.light,
+      debugShowCheckedModeBanner: false,
       home: Responsive(
         mobile: MobileSplashScreen(),
         desktop: DesktopSplashScreen(),
