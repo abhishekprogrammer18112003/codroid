@@ -1,8 +1,6 @@
 import 'package:codroid/constants/images.dart';
 import 'package:codroid/mobile/m_main_screen/codeforces.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 
 import 'image_slide.dart';
 
@@ -15,8 +13,8 @@ class MobileMainScreen extends StatefulWidget {
 
 class _MobileMainScreenState extends State<MobileMainScreen> {
   void opencodeforcespage() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const CodeforcesPage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => CodeforcesPage()));
   }
 
   void opencodechefpage() {}
