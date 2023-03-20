@@ -72,6 +72,7 @@
 
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -143,6 +144,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailcontroller = TextEditingController();
   final TextEditingController _passwordcontroller = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  void _submitForm() async {
+  String name = _namecontroller.text;
+  String email = _emailcontroller.text;
+  String password = _passwordcontroller.text;
+
+  try {
+    await FirebaseFirestore.instance.collection('clientUser').add({
+      'name': name,
+      'email': email,
+      'password': password,
+    });
+    // Navigate to the next screen or display a success message
+  } catch (e) {
+    // Handle errors here
+  }
+}
+
 
   @override
   void dispose() {
@@ -164,8 +182,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _auth
         .createUserWithEmailAndPassword(
             email: _emailcontroller.text.toString(),
-            password: _passwordcontroller.text.toString())
+            password: _passwordcontroller.text.toString()
+            )
         .then((value) {
+          _submitForm();
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => MobileHomeScreen()));
       setState(() {
@@ -268,7 +288,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         //obscureText: true,
                         cursorColor: kPrimaryColor,
                         decoration: const InputDecoration(
-                          hintText: "Your phone number",
+                          hintText: "Your Phone Number",
                           prefixIcon: Padding(
                             padding: EdgeInsets.all(defaultPadding),
                             child: Icon(Icons.phone),

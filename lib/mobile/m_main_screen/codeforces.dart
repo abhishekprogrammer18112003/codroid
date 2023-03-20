@@ -82,7 +82,7 @@ class _CodeforcesPageState extends State<CodeforcesPage> {
 
   Future<CodeforcesProfile> _fetchProfile() async {
     final response = await http
-        .get(Uri.parse('$_apiUrl$_userMethod?handles=Abhisheknitsilchar'));
+        .get(Uri.parse('$_apiUrl$_userMethod?handles=ayuanchor'));
     final json = jsonDecode(response.body);
     return CodeforcesProfile.fromJson(json);
   }
@@ -132,7 +132,7 @@ class _CodeforcesPageState extends State<CodeforcesPage> {
                           // color: Colors.yellow,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5.0),
-                            color: Color.fromARGB(133, 169, 148, 31),
+                            color: Color.fromARGB(179, 105, 167, 255),
                             boxShadow: [
                               BoxShadow(
                                 color: Color.fromARGB(255, 255, 255, 255),
