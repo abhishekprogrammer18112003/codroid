@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:codroid/constants/colors.dart';
+import 'package:codroid/mobile/login_signup_welcome/Screens/Login/login_screen.dart';
 import 'package:codroid/mobile/login_signup_welcome/Screens/Signup/signup_screen.dart';
+import 'package:codroid/mobile/login_signup_welcome/Screens/Welcome/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +28,8 @@ class MobileHomeScreen extends StatefulWidget {
 class _MobileHomeScreenState extends State<MobileHomeScreen> {
   File? imgfile;
   String? _imagepath;
-  var user = FirebaseAuth.instance.currentUser;
+  final _auth = FirebaseAuth.instance;
+  final User? user = FirebaseAuth.instance.currentUser;
   String name = 'User';
 
   @override
@@ -58,7 +61,6 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
   void initState() {
     super.initState();
     loadprofileimage();
-    // name = user!.displayName == '' ? 'User' : user!.displayName!;
   }
 
   void loadprofileimage() async {
@@ -159,7 +161,7 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
                       height: MediaQuery.of(context).size.height * 0.03,
                     ),
                     Text(
-                      "Hello, $name",
+                      "Hello, User",
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -224,6 +226,16 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
               title: const Text('Settings'),
               onTap: () {
                 Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Logout'),
+              onTap: () {
+                // Navigator.pop(context);
+                _auth.signOut();
+                Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                
               },
             ),
           ],
